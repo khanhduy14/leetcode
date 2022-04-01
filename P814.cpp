@@ -20,10 +20,10 @@ struct TreeNode {
 
 class Solution {
 public:
-    TreeNode* removeLeafNodes(TreeNode* root, int target) {
-        if (root->left) root->left = removeLeafNodes(root->left, target);
-        if (root->right) root->right = removeLeafNodes(root->right, target);
-        return root->left == root->right && root->val == target ? nullptr : root;
+    TreeNode* pruneTree(TreeNode* root) {
+        if (root->left) root->left = pruneTree(root->left);
+        if (root->right) root->right = pruneTree(root->right);
+        return root->left == root->right && root->val == 0 ? nullptr : root;
     }
 };
 
@@ -62,10 +62,10 @@ void inOrder(TreeNode *root) {
 }
 
 int main() {
-    vector<int> i = {1, 2, 3, 2, NULL, 2, 4};
-    TreeNode *root = insertLevelOrder(i, root, 0, 7);
+    vector<int> i = {1,NULL,0,0,1};
+    TreeNode *root = insertLevelOrder(i, root, 0, 5);
 
     Solution s;
-    TreeNode *r = s.removeLeafNodes(root, 2);
+    TreeNode *r = s.pruneTree(root);
     inOrder(r);
 }
